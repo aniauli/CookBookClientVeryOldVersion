@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.io.IOException;
 
-public class WindowApp {
+public class WindowApp implements Windows {
 
-    private final JFrame frame;
+    private JFrame frame;
     private JPanel cookBookPanel;
     private JButton submitSearchProductButton;
     public String productToFind;
@@ -16,29 +16,52 @@ public class WindowApp {
     private JButton dinnerIdeasButton;
     private JButton supperIdeasButton;
     private JButton breakfastIdeasButton;
-    private JList list1;
     private ProductProvider productProvider;
+    private ProductWindow productWindow;
 
-    public WindowApp() throws IOException {
-        frame = new JFrame("Cook Book");
-        frame.add(cookBookPanel);
-        frame.pack();
-        frame.setSize(1000, 500);
-        frame.setLocationByPlatform(true);
-        setLookAndFeel();
+    public WindowApp() {
+        frame = new JFrame();
+        setWindowTitle();
+        addMainComponent();
+        setWindowPack();
+        setWindowSize();
+        setWindowLocationRealtivity();
+        setWindowLookAndFeel();
+        setWindowDefaultCloseOperation();
 
-        productProvider = new ProductProvider();
+        //   productProvider = new ProductProvider();
+        productWindow = new ProductWindow();
 
         submitSearchProductButton.addActionListener(actionEvent ->
-         JOptionPane.showMessageDialog(frame, productProvider.findProduct(searchProductField.getText())));
+                productWindow.start());
     }
 
     protected void start() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setWindowVisibile();
     }
 
-    private void setLookAndFeel() {
+    public static void main(String[] args) {
+        WindowApp windowApp = new WindowApp();
+        windowApp.start();
+    }
+
+    @Override
+    public void setWindowTitle() {
+        frame.setTitle("Cook Book");
+    }
+
+    @Override
+    public void addMainComponent() {
+        frame.add(cookBookPanel);
+    }
+
+    @Override
+    public void setWindowSize() {
+        frame.setSize(700, 600);
+    }
+
+    @Override
+    public void setWindowLookAndFeel() {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
@@ -46,5 +69,24 @@ public class WindowApp {
         }
     }
 
+    @Override
+    public void setWindowDefaultCloseOperation() {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void setWindowVisibile() {
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void setWindowPack() {
+        frame.pack();
+    }
+
+    @Override
+    public void setWindowLocationRealtivity() {
+        frame.setLocationByPlatform(true);
+    }
 }
 

@@ -1,10 +1,20 @@
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 public class ProductWindow implements Windows {
 
     private JFrame frame;
     private JPanel productPanel;
-    private JTextArea Kalorie;
+    private JTextArea CaloriesPer100GramsTextArea;
+    private JTextArea MainIngredientTextArea;
+    private JTextArea CaloriesPerServingTextArea;
+    private JTextArea GramsPerServingTextArea;
+    private JPanel MainIngredient;
+    private JPanel CaloriesPer100GramsPanel;
+    private JPanel GramsPerServingPanel;
+    private JPanel CaloriesPerServingPanel;
+
 
     public ProductWindow() {
         frame = new JFrame();
@@ -17,8 +27,18 @@ public class ProductWindow implements Windows {
         setWindowDefaultCloseOperation();
     }
 
-    public void start(){
+    public void start(String productName, String caloriesPer100Grams, String gramsPerServing, String mainIngredient){
+        setMainComponentTitle(productName);
+        CaloriesPer100GramsTextArea.setText(caloriesPer100Grams);
+        GramsPerServingTextArea.setText(gramsPerServing);
+        CaloriesPerServingTextArea.setText(caloriesPerServing(caloriesPer100Grams, gramsPerServing));
+        MainIngredientTextArea.setText(mainIngredient);
         setWindowVisibile();
+    }
+
+    private String caloriesPerServing(String caloriesPer100Grams, String gramsPerServing) {
+        Double caloriesPerServing = ((Double.parseDouble(caloriesPer100Grams) * Double.parseDouble(gramsPerServing) / 100.0));
+        return String.format("%s", caloriesPerServing);
     }
 
     @Override
@@ -63,5 +83,12 @@ public class ProductWindow implements Windows {
     @Override
     public void setWindowVisibile() {
         frame.setVisible(true);
+    }
+
+    private void setMainComponentTitle(String productName) {
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(productName);
+        title.setTitleFont(new Font("Segoe Print", Font.BOLD, 36));
+        productPanel.setBorder(title);
     }
 }

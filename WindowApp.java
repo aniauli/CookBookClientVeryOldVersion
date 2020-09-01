@@ -1,25 +1,28 @@
 import javax.swing.*;
-import java.io.IOException;
 
 public class WindowApp implements Windows {
 
     private JFrame frame;
     private JPanel cookBookPanel;
+
     private JButton submitSearchProductButton;
-    public String productToFind;
-    private JButton submitSearchRecipeButton;
-    public String recipeToFind;
-    private JFormattedTextField searchRecipeField;
     private JFormattedTextField searchProductField;
+    private JButton submitSearchRecipeButton;
+    private JFormattedTextField searchRecipeField;
     private JButton secondBreakfastIdeasButton;
     private JButton lunchIdeasButton;
     private JButton dinnerIdeasButton;
     private JButton supperIdeasButton;
     private JButton breakfastIdeasButton;
+
     private ProductProvider productProvider;
     private ProductWindow productWindow;
+    private EditableProductWindow editableProductWindow;
+
+    private String searchingProduct;
 
     public WindowApp() {
+
         frame = new JFrame();
         setWindowTitle();
         addMainComponent();
@@ -29,20 +32,34 @@ public class WindowApp implements Windows {
         setWindowLookAndFeel();
         setWindowDefaultCloseOperation();
 
-        //   productProvider = new ProductProvider();
+        productProvider = new ProductProvider();
         productWindow = new ProductWindow();
+        editableProductWindow = new EditableProductWindow();
 
-        submitSearchProductButton.addActionListener(actionEvent ->
-                productWindow.start());
+        submitSearchProductButton.addActionListener(actionEvent -> {
+            searchingProduct = searchProductField.getText();
+            if (searchingProduct.length() > 0) {
+                findProduct(searchingProduct);
+            } else {
+                JOptionPane.showMessageDialog(frame, "Nie wpisałeś produktu");
+            }
+        });
+    }
+
+    private void findProduct(String productToFind) {
+        String answer = productProvider.findItem(productToFind);
+        if(answer.equals("There's no such product")){
+            askAboutAddingNewProduct();
+        }
+        else if(answer.equals("SQL Error") || answer.equals("Server Error")){
+            showMessageServerError();
+        } else {
+            showProductInfo(answer);
+        }
     }
 
     protected void start() {
         setWindowVisibile();
-    }
-
-    public static void main(String[] args) {
-        WindowApp windowApp = new WindowApp();
-        windowApp.start();
     }
 
     @Override
@@ -57,7 +74,7 @@ public class WindowApp implements Windows {
 
     @Override
     public void setWindowSize() {
-        frame.setSize(700, 600);
+        frame.setSize(800, 600);
     }
 
     @Override
@@ -88,5 +105,32 @@ public class WindowApp implements Windows {
     public void setWindowLocationRealtivity() {
         frame.setLocationByPlatform(true);
     }
+
+    private void askAboutAddingNewProduct() {
+        Integer clientChoice;
+        Object[] options = {"Tak", "Nie"};
+        clientChoice = JOptionPane.showOptionDialog(frame, "Podanego produktu nie ma w bazie. Czy chciałbyś dodać " +
+                        "ten produkt?", "Dodawanie produktu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                options, options[1]);
+        if(clientChoice == 0){
+            editableProductWindow.start(searchingProduct);
+        }
+    }
+
+    private void showProductInfo(String serverAnswer) {
+        System.out.println(serverAnswer);
+        String[] splittedAnswer = serverAnswer.split(";", 5);
+        if(splittedAnswer.length != 4){
+            showMessageServerError();
+        }
+        else {
+            productWindow.start(splittedAnswer[0], splittedAnswer[1], splittedAnswer[2], splittedAnswer[3]);
+        }
+    }
+
+    private void showMessageServerError() {
+        JOptionPane.showMessageDialog(frame, "Błąd serwera");
+    }
+
 }
 

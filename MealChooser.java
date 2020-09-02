@@ -2,21 +2,24 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-public class ProductWindow implements Windows {
+public class MealChooser implements Windows {
 
     private JFrame frame;
-    private JPanel productPanel;
-    private JTextArea CaloriesPer100GramsTextArea;
-    private JTextArea MainIngredientTextArea;
-    private JTextArea CaloriesPerServingTextArea;
-    private JTextArea GramsPerServingTextArea;
-    private JPanel MainIngredient;
-    private JPanel CaloriesPer100GramsPanel;
-    private JPanel GramsPerServingPanel;
-    private JPanel CaloriesPerServingPanel;
+    private JPanel mealChooserPanel;
+    private JList<String> recipesList;
+    private JPanel recipePanel;
+    private JPanel info;
+    private JPanel calories;
+    private JPanel ingredients;
+    private JPanel picture;
+    private JPanel recipe;
+    private JTextArea caloriesTextArea;
+    private JTextArea instructionsTextArea;
+    private JScrollPane scrollPaneForRecipesList;
+    private JList ingredientsList;
+    private JPanel listPanel;
 
-
-    public ProductWindow() {
+    public MealChooser() {
         frame = new JFrame();
         setWindowTitle();
         addMainComponent();
@@ -27,28 +30,30 @@ public class ProductWindow implements Windows {
         setWindowDefaultCloseOperation();
     }
 
-    public void start(String productName, String caloriesPer100Grams, String gramsPerServing, String mainIngredient){
-        setMainComponentTitle(productName);
-        CaloriesPer100GramsTextArea.setText(caloriesPer100Grams);
-        GramsPerServingTextArea.setText(gramsPerServing);
-        CaloriesPerServingTextArea.setText(caloriesPerServing(caloriesPer100Grams, gramsPerServing));
-        MainIngredientTextArea.setText(mainIngredient);
+    public void start(String mealName, String[] mealList){
+        setMainComponentTitle(mealName);
+        recipesList.setListData(mealList);
         setWindowVisibile();
     }
 
-    private String caloriesPerServing(String caloriesPer100Grams, String gramsPerServing) {
-        Double caloriesPerServing = ((Double.parseDouble(caloriesPer100Grams) * Double.parseDouble(gramsPerServing) / 100.0));
-        return String.format("%s", caloriesPerServing);
+    private ImageIcon loadIcon(String path) {
+        java.net.URL imgPath = getClass().getResource(path);
+        if (imgPath != null) {
+            return new ImageIcon(imgPath);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
     }
 
     @Override
     public void setWindowTitle() {
-        frame.setTitle("Produkt Info");
+        frame.setTitle("Pomysł na ...");
     }
 
     @Override
     public void addMainComponent() {
-        frame.add(productPanel);
+        frame.add(mealChooserPanel);
     }
 
     @Override
@@ -58,7 +63,7 @@ public class ProductWindow implements Windows {
 
     @Override
     public void setWindowSize() {
-        frame.setSize(600, 450);
+        frame.setSize(800, 500);
     }
 
     @Override
@@ -77,7 +82,7 @@ public class ProductWindow implements Windows {
 
     @Override
     public void setWindowDefaultCloseOperation() {
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -89,6 +94,10 @@ public class ProductWindow implements Windows {
         TitledBorder title;
         title = BorderFactory.createTitledBorder(productName);
         title.setTitleFont(new Font("Segoe Print", Font.BOLD, 36));
-        productPanel.setBorder(title);
+        mealChooserPanel.setBorder(title);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }

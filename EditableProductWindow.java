@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 public class EditableProductWindow implements Windows {
     private JFrame frame;
@@ -32,21 +34,16 @@ public class EditableProductWindow implements Windows {
         productProvider = new ProductProvider();
 
         submitButton.addActionListener(ActionEvent -> {
-            editedCalories = CaloriesPer100GramsTextArea.getText();
-            editedProductName = ProductNameTextArea.getText();
-            editedGrams = GramsPerServingTextArea.getText();
-            editedIngredient = MainIngredientTextArea.getText();
 
-            if(!AreSomeTextAreasEmpty()) {
-                if(sendProductToServerAndReceiveAnswer().equals("Product added")) {
-                    JOptionPane.showMessageDialog(frame, "Pomyślnie dodano produkt");
-                    frame.dispose();
-                }
-                else{
-                    JOptionPane.showMessageDialog(frame, "Błąd! Nie udało się dodać produktu. Sprawdź, czy podałeś prawidłowe wartości.");
-                }
-            }
-            else{
+            if (!AreSomeTextAreasEmpty()) {
+                JOptionPane.showMessageDialog(frame, sendProductToServerAndReceiveAnswer());
+
+                CaloriesPer100GramsTextArea.setText("");
+                GramsPerServingTextArea.setText("");
+                MainIngredientTextArea.setText("");
+
+                frame.dispose();
+            } else{
                 JOptionPane.showMessageDialog(frame, "Nie wypełniłeś wszystkich pól");
             }
         });
@@ -54,16 +51,23 @@ public class EditableProductWindow implements Windows {
 
     public void start(String productName){
         ProductNameTextArea.setText(productName);
+        setMainComponentTitle(productName);
         setWindowVisibile();
     }
 
     private String sendProductToServerAndReceiveAnswer() {
-        String toSend = editedProductName + ";" + editedCalories + ";" + editedGrams + ";" + editedIngredient;
+        String toSend = ProductNameTextArea.getText() + ";" + CaloriesPer100GramsTextArea.getText() + ";" +
+                GramsPerServingTextArea.getText() + ";" + MainIngredientTextArea.getText();
         return productProvider.addItem(toSend);
     }
 
     private boolean AreSomeTextAreasEmpty() {
-        return editedProductName.length() <= 0 || editedCalories.length() <=0 || editedGrams.length() <= 0 || editedIngredient.length() <= 0;
+        return isEmpty(ProductNameTextArea) || isEmpty(CaloriesPer100GramsTextArea) ||
+                isEmpty(GramsPerServingTextArea) || isEmpty(MainIngredientTextArea);
+    }
+
+    private boolean isEmpty(JTextArea textArea) {
+        return (textArea.getText().length() <= 0);
     }
 
     @Override
@@ -83,7 +87,7 @@ public class EditableProductWindow implements Windows {
 
     @Override
     public void setWindowSize() {
-        frame.setSize(450, 400);
+        frame.setSize(650, 450);
     }
 
     @Override
@@ -108,5 +112,12 @@ public class EditableProductWindow implements Windows {
     @Override
     public void setWindowVisibile() {
         frame.setVisible(true);
+    }
+
+    private void setMainComponentTitle(String productName) {
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(productName);
+        title.setTitleFont(new Font("Segoe Print", Font.BOLD, 36));
+        productPanel.setBorder(title);
     }
 }

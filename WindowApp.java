@@ -18,6 +18,7 @@ public class WindowApp implements Windows {
     private ProductProvider productProvider;
     private ProductWindow productWindow;
     private EditableProductWindow editableProductWindow;
+    private MealChooser mealChooser;
 
     private String searchingProduct;
 
@@ -35,6 +36,7 @@ public class WindowApp implements Windows {
         productProvider = new ProductProvider();
         productWindow = new ProductWindow();
         editableProductWindow = new EditableProductWindow();
+        mealChooser = new MealChooser();
 
         submitSearchProductButton.addActionListener(actionEvent -> {
             searchingProduct = searchProductField.getText();
@@ -43,6 +45,11 @@ public class WindowApp implements Windows {
             } else {
                 JOptionPane.showMessageDialog(frame, "Nie wpisałeś produktu");
             }
+        });
+
+        breakfastIdeasButton.addActionListener(actionEvent -> {
+            String[] breakfasts = {"Jajecznica", "Omlet", "Owsianka z bananami"};
+            mealChooser.start("Śniadania", breakfasts);
         });
     }
 
@@ -118,7 +125,6 @@ public class WindowApp implements Windows {
     }
 
     private void showProductInfo(String serverAnswer) {
-        System.out.println(serverAnswer);
         String[] splittedAnswer = serverAnswer.split(";", 5);
         if(splittedAnswer.length != 4){
             showMessageServerError();

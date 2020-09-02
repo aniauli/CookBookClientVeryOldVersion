@@ -21,7 +21,7 @@
           <background color="-6250850"/>
         </properties>
         <border type="none" title="Węglowodany">
-          <font name="Segoe Print" size="48" style="1"/>
+          <font name="Segoe Print" size="36" style="1"/>
           <title-color color="-14211803"/>
         </border>
         <children>

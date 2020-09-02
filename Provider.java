@@ -29,9 +29,33 @@ abstract class Provider {
         }
     }
 
-    abstract String findItem(String itemToFind);
-    abstract void sendFindToServer(String toSend);
-    abstract String receiveFromServer();
-    abstract String addItem(String itemToAdd);
-    abstract void sendAddToServer(String toSend);
+    protected String findItem(String itemToFind){
+        sendFindToServer(itemToFind);
+        return receiveFromServer();
+    }
+
+    protected String addItem(String itemToAdd){
+        sendAddToServer(itemToAdd);
+        return receiveFromServer();
+    }
+
+    protected String showAllItems(){
+        sendShowAllItemsToSerer();
+        return receiveFromServer();
+    }
+
+    protected String receiveFromServer(){
+        String receivedMessage;
+        try {
+            receivedMessage = dataInputStream.readUTF();
+            return receivedMessage;
+        } catch (IOException e) {
+            System.out.println("Can't receive from server");
+            return "Server Error";
+        }
+    }
+
+    protected abstract void sendShowAllItemsToSerer();
+    protected abstract void sendFindToServer(String toSend);
+    protected abstract void sendAddToServer(String toSend);
 }

@@ -49,7 +49,10 @@ public class WindowApp implements Windows {
 
         breakfastIdeasButton.addActionListener(actionEvent -> {
             String[] breakfasts = {"Jajecznica", "Omlet", "Owsianka z bananami"};
-            mealChooser.start("Śniadania", breakfasts);
+            mealChooser.start("Śniadania", breakfasts, new ImageIcon("src/Images/Breakfast.jpg"));
+        });
+
+        dinnerIdeasButton.addActionListener(actionEvent -> {
         });
     }
 

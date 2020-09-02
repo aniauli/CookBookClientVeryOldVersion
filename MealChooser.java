@@ -18,6 +18,7 @@ public class MealChooser implements Windows {
     private JScrollPane scrollPaneForRecipesList;
     private JList ingredientsList;
     private JPanel listPanel;
+    private JLabel pictureLabel;
 
     public MealChooser() {
         frame = new JFrame();
@@ -30,9 +31,10 @@ public class MealChooser implements Windows {
         setWindowDefaultCloseOperation();
     }
 
-    public void start(String mealName, String[] mealList){
+    public void start(String mealName, String[] mealList, Icon icon){
         setMainComponentTitle(mealName);
         recipesList.setListData(mealList);
+        pictureLabel.setIcon(icon);
         setWindowVisibile();
     }
 
@@ -63,7 +65,7 @@ public class MealChooser implements Windows {
 
     @Override
     public void setWindowSize() {
-        frame.setSize(800, 500);
+        frame.setSize(750, 500);
     }
 
     @Override

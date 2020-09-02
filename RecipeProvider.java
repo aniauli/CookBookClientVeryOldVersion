@@ -1,34 +1,32 @@
 import java.io.IOException;
 
-public class ProductProvider extends Provider {
+public class RecipeProvider extends Provider {
 
     @Override
     protected void sendShowAllItemsToSerer() {
         try {
-            dataOutputStream.writeUTF("Show all products");
+            dataOutputStream.writeUTF("Show all recipes");
         } catch (IOException e) {
             System.out.println("Can't send the message to server");
         }
     }
 
-    @Override
     protected void sendFindToServer(String toSend) {
         try {
-            dataOutputStream.writeUTF("Find product");
+            dataOutputStream.writeUTF("Find recipe");
             dataOutputStream.writeUTF(toSend);
         } catch (IOException e) {
-            System.out.println("Can't send product to server");
+            System.out.println("Can't send recipe to server");
         }
     }
 
     @Override
     protected void sendAddToServer(String toSend) {
         try {
-            dataOutputStream.writeUTF("Add product");
+            dataOutputStream.writeUTF("Add recipe");
             dataOutputStream.writeUTF(toSend);
         } catch (IOException e) {
-            System.out.println("Can't send product to server");
+            System.out.println("Can't send recipe to server");
         }
     }
-
 }

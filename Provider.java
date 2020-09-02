@@ -39,11 +39,6 @@ abstract class Provider {
         return receiveFromServer();
     }
 
-    protected String showAllItems(){
-        sendShowAllItemsToSerer();
-        return receiveFromServer();
-    }
-
     protected String receiveFromServer(){
         String receivedMessage;
         try {
@@ -55,7 +50,6 @@ abstract class Provider {
         }
     }
 
-    protected abstract void sendShowAllItemsToSerer();
     protected abstract void sendFindToServer(String toSend);
     protected abstract void sendAddToServer(String toSend);
 }

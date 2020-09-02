@@ -1,11 +1,15 @@
 import java.io.IOException;
 
-public class RecipeProvider extends Provider {
+public class RecipeProvider extends ProductProvider {
 
-    @Override
-    protected void sendShowAllItemsToSerer() {
+    protected String showAllMeals(String mealName){
+        sendShowAllMealsToServer(mealName);
+        return receiveFromServer();
+    }
+
+    protected void sendShowAllMealsToServer(String mealName) {
         try {
-            dataOutputStream.writeUTF("Show all recipes");
+            dataOutputStream.writeUTF("Show " + mealName);
         } catch (IOException e) {
             System.out.println("Can't send the message to server");
         }

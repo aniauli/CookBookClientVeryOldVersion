@@ -56,7 +56,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="434b1" class="javax.swing.JFormattedTextField" binding="searchProductField">
+                  <component id="434b1" class="javax.swing.JFormattedTextField" binding="productSearchField">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <minimum-size width="50" height="20"/>
@@ -67,7 +67,7 @@
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="21265" class="javax.swing.JButton" binding="submitSearchProductButton">
+                  <component id="21265" class="javax.swing.JButton" binding="productSearchButton">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -87,7 +87,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="b111e" class="javax.swing.JFormattedTextField" binding="searchRecipeField">
+                  <component id="b111e" class="javax.swing.JFormattedTextField" binding="recipeSearchField">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -97,7 +97,7 @@
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="ae291" class="javax.swing.JButton" binding="submitSearchRecipeButton">
+                  <component id="ae291" class="javax.swing.JButton" binding="recipeSearchButton">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
